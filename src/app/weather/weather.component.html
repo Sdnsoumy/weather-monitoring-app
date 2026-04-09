@@ -1,9 +1,19 @@
-<section class="weather-page">
+<section class="weather-page" [class.dark-mode]="themeMode === 'dark'" [class.light-mode]="themeMode === 'light'">
 	<div class="hero-card">
 		<div>
 			<p class="eyebrow">Live Dashboard</p>
 			<h2>{{ cityName }}, {{ country }}</h2>
 			<p>Real-time conditions and 7-day forecast powered by Open-Meteo.</p>
+			<div class="hero-actions">
+				<div class="theme-group" role="group" aria-label="Theme mode">
+					<button type="button" class="theme-btn" [class.active]="themeMode === 'light'" (click)="setThemeMode('light')">Light Mode</button>
+					<button type="button" class="theme-btn" [class.active]="themeMode === 'dark'" (click)="setThemeMode('dark')">Dark Mode</button>
+				</div>
+				<button type="button" class="hero-btn" (click)="toggleFavorite()">
+					{{ isCurrentFavorite ? 'Remove favorite' : 'Save favorite' }}
+				</button>
+				<button type="button" class="hero-btn secondary" (click)="setAsDefaultCity()">Set as default city</button>
+			</div>
 		</div>
 		<a routerLink="/search" class="search-link">Search another city</a>
 	</div>
@@ -14,13 +24,13 @@
 	<section class="current-grid" *ngIf="!isLoading && forecast?.current as current">
 		<article class="current-card">
 			<p class="label">Current temperature</p>
-			<p class="value">{{ current.temperature_2m }}&deg;C</p>
+			<p class="value">{{ formatTemperature(current.temperature_2m) }}&deg;{{ temperatureUnit }}</p>
 			<p class="condition">{{ weatherIcon(current.weather_code) }} {{ weatherLabel(current.weather_code) }}</p>
 		</article>
 
 		<article class="mini-card">
 			<p class="label">Feels like</p>
-			<p class="mini-value">{{ current.apparent_temperature }}&deg;C</p>
+			<p class="mini-value">{{ formatTemperature(current.apparent_temperature) }}&deg;{{ temperatureUnit }}</p>
 		</article>
 
 		<article class="mini-card">
@@ -34,6 +44,40 @@
 		</article>
 	</section>
 
+	<section class="insights-section" *ngIf="!isLoading && probabilityInsights.length">
+		<div class="insights-header">
+			<h3>AI Weather Probability</h3>
+			<p>Built with free Open-Meteo data and local rule-based AI scoring.</p>
+		</div>
+		<div class="probability-grid">
+			<article class="insight-card" *ngFor="let insight of probabilityInsights">
+				<div class="ring" [style.background]="ringBackground(insight.value, insight.color)">
+					<div class="ring-inner">{{ insight.value }}%</div>
+				</div>
+				<p class="insight-title">{{ insight.title }}</p>
+				<p class="insight-subtitle">{{ insight.subtitle }}</p>
+			</article>
+		</div>
+
+		<div class="hourly-chart" *ngIf="hourlyRiskChart.length">
+			<p class="chart-title">Rain probability trend (next 12 hours)</p>
+			<div class="bars">
+				<div class="bar-col" *ngFor="let point of hourlyRiskChart">
+					<div class="bar" [style.height.%]="point.rainProbability" [style.opacity]="barOpacity(point.rainProbability)"></div>
+					<p class="bar-value">{{ point.rainProbability }}%</p>
+					<p class="bar-time">{{ point.time }}</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="tips-card" *ngIf="smartTips.length">
+			<p class="tips-title">Smart recommendations</p>
+			<ul>
+				<li *ngFor="let tip of smartTips">{{ tip }}</li>
+			</ul>
+		</div>
+	</section>
+
 	<section class="forecast" *ngIf="!isLoading && forecast?.daily as daily">
 		<h3>7-Day Outlook</h3>
 		<div class="forecast-grid">
@@ -41,7 +85,7 @@
 				<p class="day">{{ day | date:'EEE, MMM d' }}</p>
 				<p class="icon">{{ weatherIcon(daily.weather_code[i]) }}</p>
 				<p class="summary">{{ weatherLabel(daily.weather_code[i]) }}</p>
-				<p class="temp">{{ daily.temperature_2m_max[i] }}&deg; / {{ daily.temperature_2m_min[i] }}&deg;</p>
+				<p class="temp">{{ formatTemperature(daily.temperature_2m_max[i]) }}&deg; / {{ formatTemperature(daily.temperature_2m_min[i]) }}&deg;</p>
 				<p class="rain">Rain chance: {{ daily.precipitation_probability_max[i] }}%</p>
 			</article>
 		</div>
