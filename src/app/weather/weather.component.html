@@ -1,0 +1,49 @@
+<section class="weather-page">
+	<div class="hero-card">
+		<div>
+			<p class="eyebrow">Live Dashboard</p>
+			<h2>{{ cityName }}, {{ country }}</h2>
+			<p>Real-time conditions and 7-day forecast powered by Open-Meteo.</p>
+		</div>
+		<a routerLink="/search" class="search-link">Search another city</a>
+	</div>
+
+	<div class="status" *ngIf="isLoading">Loading latest weather data...</div>
+	<div class="status error" *ngIf="!isLoading && errorMessage">{{ errorMessage }}</div>
+
+	<section class="current-grid" *ngIf="!isLoading && forecast?.current as current">
+		<article class="current-card">
+			<p class="label">Current temperature</p>
+			<p class="value">{{ current.temperature_2m }}&deg;C</p>
+			<p class="condition">{{ weatherIcon(current.weather_code) }} {{ weatherLabel(current.weather_code) }}</p>
+		</article>
+
+		<article class="mini-card">
+			<p class="label">Feels like</p>
+			<p class="mini-value">{{ current.apparent_temperature }}&deg;C</p>
+		</article>
+
+		<article class="mini-card">
+			<p class="label">Humidity</p>
+			<p class="mini-value">{{ current.relative_humidity_2m }}%</p>
+		</article>
+
+		<article class="mini-card">
+			<p class="label">Wind speed</p>
+			<p class="mini-value">{{ current.wind_speed_10m }} km/h</p>
+		</article>
+	</section>
+
+	<section class="forecast" *ngIf="!isLoading && forecast?.daily as daily">
+		<h3>7-Day Outlook</h3>
+		<div class="forecast-grid">
+			<article class="day-card" *ngFor="let day of daily.time; let i = index">
+				<p class="day">{{ day | date:'EEE, MMM d' }}</p>
+				<p class="icon">{{ weatherIcon(daily.weather_code[i]) }}</p>
+				<p class="summary">{{ weatherLabel(daily.weather_code[i]) }}</p>
+				<p class="temp">{{ daily.temperature_2m_max[i] }}&deg; / {{ daily.temperature_2m_min[i] }}&deg;</p>
+				<p class="rain">Rain chance: {{ daily.precipitation_probability_max[i] }}%</p>
+			</article>
+		</div>
+	</section>
+</section>

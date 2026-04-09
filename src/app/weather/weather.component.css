@@ -1,0 +1,172 @@
+.weather-page {
+	display: grid;
+	gap: 1rem;
+}
+
+.hero-card {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	align-items: center;
+	padding: 1.25rem;
+	border-radius: 14px;
+	color: #e2e8f0;
+	background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 60%, #38bdf8 100%);
+}
+
+.hero-card h2 {
+	margin: 0.15rem 0 0.45rem;
+	font-size: clamp(1.4rem, 2.8vw, 2rem);
+}
+
+.eyebrow {
+	margin: 0;
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	opacity: 0.8;
+}
+
+.search-link {
+	text-decoration: none;
+	color: #0f172a;
+	background: #f8fafc;
+	border-radius: 8px;
+	padding: 0.55rem 0.9rem;
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.search-link:hover {
+	background: #e2e8f0;
+}
+
+.status {
+	color: #334155;
+	font-weight: 500;
+}
+
+.status.error {
+	color: #b91c1c;
+}
+
+.current-grid {
+	display: grid;
+	gap: 0.8rem;
+	grid-template-columns: 2fr 1fr 1fr 1fr;
+}
+
+.current-card,
+.mini-card,
+.day-card {
+	border-radius: 12px;
+	background: #ffffff;
+	box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
+	border: 1px solid #e2e8f0;
+}
+
+.current-card {
+	padding: 1rem;
+}
+
+.label {
+	margin: 0;
+	color: #64748b;
+	font-size: 0.85rem;
+}
+
+.value {
+	margin: 0.3rem 0;
+	font-size: clamp(2rem, 5vw, 2.8rem);
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.condition {
+	margin: 0;
+	color: #1e293b;
+	font-weight: 600;
+}
+
+.mini-card {
+	padding: 0.95rem;
+}
+
+.mini-value {
+	margin: 0.35rem 0 0;
+	font-size: 1.2rem;
+	font-weight: 700;
+	color: #0f172a;
+}
+
+.forecast h3 {
+	margin: 0.2rem 0 0.7rem;
+	color: #0f172a;
+}
+
+.forecast-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 0.75rem;
+}
+
+.day-card {
+	padding: 0.85rem;
+}
+
+.day,
+.summary,
+.temp,
+.rain {
+	margin: 0;
+}
+
+.day {
+	color: #334155;
+	font-weight: 600;
+	font-size: 0.88rem;
+}
+
+.icon {
+	margin: 0.4rem 0;
+	font-size: 1.4rem;
+}
+
+.summary {
+	color: #475569;
+	font-size: 0.87rem;
+}
+
+.temp {
+	margin-top: 0.35rem;
+	color: #0f172a;
+	font-weight: 700;
+}
+
+.rain {
+	margin-top: 0.2rem;
+	color: #64748b;
+	font-size: 0.82rem;
+}
+
+@media (max-width: 980px) {
+	.current-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.forecast-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 720px) {
+	.hero-card {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.current-grid,
+	.forecast-grid {
+		grid-template-columns: 1fr;
+	}
+}

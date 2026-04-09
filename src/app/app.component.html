@@ -1,0 +1,13 @@
+<main class="app-shell">
+  <header class="app-header">
+    <h1>Weather Monitoring</h1>
+    <nav class="app-nav" aria-label="Primary">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/search" routerLinkActive="active">Search</a>
+    </nav>
+  </header>
+
+  <section class="app-content">
+    <router-outlet></router-outlet>
+  </section>
+</main>
