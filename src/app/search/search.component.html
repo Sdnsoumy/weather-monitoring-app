@@ -31,6 +31,33 @@
       <p class="status-message">💡 Try searching for cities like New York, Dubai, or Sydney</p>
     </div>
 
+    <div class="recent-container" *ngIf="recentCities.length">
+      <p class="recent-title">Recent cities</p>
+      <div class="recent-chips">
+        <button type="button" class="chip" *ngFor="let city of recentCities" (click)="useRecentCity(city)">
+          {{ city.name }}, {{ city.country }}
+        </button>
+      </div>
+    </div>
+
+    <div class="favorites-container" *ngIf="favorites.length">
+      <div class="favorites-header">
+        <p class="favorites-title">Favorite cities</p>
+        <div class="favorites-meta">
+          <span class="favorites-count">{{ favorites.length }}</span>
+          <button type="button" class="favorites-clear" (click)="clearAllFavorites()">Clear all</button>
+        </div>
+      </div>
+      <ul class="favorites-list">
+        <li class="favorite-row" *ngFor="let city of favorites">
+          <button type="button" class="favorite-open" (click)="openFavorite(city)">
+            {{ city.name }}, {{ city.country }}
+          </button>
+          <button type="button" class="favorite-remove" (click)="removeFavorite(city)">Remove</button>
+        </li>
+      </ul>
+    </div>
+
     <div class="status-container error" *ngIf="!isLoading && errorMessage">
       <p class="status-message">❌ {{ errorMessage }}</p>
     </div>
@@ -44,6 +71,9 @@
               <h3 class="city-name">{{ city.name }}</h3>
               <p class="city-location">{{ city.admin1 ? city.admin1 + ', ' : '' }}{{ city.country }}</p>
             </div>
+            <button type="button" class="favorite-btn" (click)="toggleFavorite(city)">
+              {{ isFavorite(city) ? 'Remove favorite' : 'Add favorite' }}
+            </button>
           </div>
           <button type="button" (click)="viewWeather(city)" class="action-button">
             <span>View Weather</span>

@@ -35,6 +35,13 @@ export interface ForecastResponse {
     temperature_2m_min: number[];
     precipitation_probability_max: number[];
   };
+  hourly?: {
+    time: string[];
+    precipitation_probability: number[];
+    weather_code: number[];
+    cloud_cover: number[];
+    wind_speed_10m: number[];
+  };
 }
 
 @Injectable({ providedIn: 'root' })
@@ -52,7 +59,7 @@ export class MetaWeatherService {
 
   getWeather(latitude: number, longitude: number): Observable<ForecastResponse> {
     return this.http.get<ForecastResponse>(
-      `${this.forecastUrl}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&forecast_days=7&timezone=auto`
+      `${this.forecastUrl}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code&hourly=precipitation_probability,weather_code,cloud_cover,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&forecast_days=7&timezone=auto`
     );
   }
 }
