@@ -1,10 +1,17 @@
 <main class="app-shell">
   <header class="app-header">
     <h1>Weather Monitoring</h1>
-    <nav class="app-nav" aria-label="Primary">
-      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-      <a routerLink="/search" routerLinkActive="active">Search</a>
-    </nav>
+    <div class="header-actions">
+      <nav class="app-nav" aria-label="Primary">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        <a routerLink="/search" routerLinkActive="active">Search</a>
+      </nav>
+      <div class="unit-group" role="group" aria-label="Temperature unit">
+        <button type="button" class="unit-toggle" [class.active]="temperatureUnit === 'C'" (click)="setUnit('C')">C</button>
+        <button type="button" class="unit-toggle" [class.active]="temperatureUnit === 'F'" (click)="setUnit('F')">F</button>
+      </div>
+      <span class="favorites-pill" aria-label="Saved favorites">Favorites {{ favoritesCount }}</span>
+    </div>
   </header>
 
   <section class="app-content">
